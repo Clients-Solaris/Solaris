@@ -1,827 +1,123 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" href="/Solaris.ico" type="image/x-icon">
-  <title>Solaris | MCBE Client</title>
-  <style>
-    :root {
-      --bg: #05070d;
-      --bg2: #0a0f1a;
-      --panel: rgba(255, 255, 255, 0.045);
-      --panel-strong: rgba(255, 255, 255, 0.075);
-      --border: rgba(255, 255, 255, 0.09);
-      --text: #f4f7ff;
-      --muted: #aab3c8;
-      --accent: #ffb347;
-      --accent2: #ff7a59;
-      --shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
-    }
-
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-
-    body {
-      margin: 0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--text);
-      min-height: 100vh;
-      overflow-x: hidden;
-      background:
-        radial-gradient(circle at top, rgba(255, 179, 71, 0.14), transparent 30%),
-        radial-gradient(circle at 80% 10%, rgba(255, 122, 89, 0.10), transparent 25%),
-        linear-gradient(180deg, var(--bg), var(--bg2));
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .wrap {
-      width: min(1180px, calc(100% - 32px));
-      margin: 0 auto;
-    }
-
-    .hero {
-      padding: 34px 0 24px;
-    }
-
-    .hero-card {
-      border-radius: 34px;
-      border: 1px solid var(--border);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03)),
-        radial-gradient(circle at top left, rgba(255, 179, 71, 0.12), transparent 38%),
-        radial-gradient(circle at bottom right, rgba(255, 122, 89, 0.09), transparent 30%);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(18px);
-      padding: 28px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .hero-card::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.03) 50%, transparent 100%);
-      pointer-events: none;
-    }
-
-    .hero-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-      flex-wrap: wrap;
-      margin-bottom: 28px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: 800;
-      letter-spacing: 0.4px;
-      font-size: 1.05rem;
-      min-width: 0;
-    }
-
-    .brand-name {
-      white-space: nowrap;
-      overflow: visible;
-      flex: 0 0 auto;
-    }
-
-    .brand-badge {
-      width: 44px;
-      height: 44px;
-      border-radius: 14px;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(135deg, rgba(255,179,71,0.22), rgba(255,122,89,0.18));
-      border: 1px solid rgba(255,179,71,0.25);
-      box-shadow: 0 0 0 6px rgba(255,179,71,0.04), 0 12px 30px rgba(0,0,0,0.35);
-      overflow: hidden;
-      flex: 0 0 auto;
-    }
-
-    .brand-badge img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .nav {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .nav a {
-      padding: 10px 14px;
-      border-radius: 999px;
-      color: var(--muted);
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.03);
-      transition: 0.2s ease;
-    }
-
-    .nav a:hover {
-      color: var(--text);
-      background: rgba(255,255,255,0.06);
-      transform: translateY(-1px);
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 24px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero-copy {
-      min-width: 0;
-    }
-
-    .hero-copy h1 {
-      margin: 0;
-      font-size: clamp(2.8rem, 6vw, 5.2rem);
-      line-height: 0.94;
-      letter-spacing: -0.06em;
-      padding-right: 10px;
-      max-width: 100%;
-      overflow: visible;
-      text-wrap: balance;
-    }
-
-    .gradient-text {
-      background: linear-gradient(135deg, #fff, var(--accent) 45%, var(--accent2));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      padding-right: 3px;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: rgba(255, 179, 71, 0.10);
-      border: 1px solid rgba(255, 179, 71, 0.18);
-      color: #ffd9a5;
-      font-size: 0.9rem;
-      margin-bottom: 18px;
-    }
-
-    .hero-copy p {
-      margin: 18px 0 0;
-      max-width: 62ch;
-      color: var(--muted);
-      font-size: 1.05rem;
-      line-height: 1.75;
-    }
-
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-      margin-top: 28px;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 14px 18px;
-      border-radius: 16px;
-      font-weight: 700;
-      border: 1px solid transparent;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-    }
-
-    .btn:hover { transform: translateY(-2px); }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color: #111;
-      box-shadow: 0 14px 34px rgba(255, 179, 71, 0.20);
-    }
-
-    .btn-secondary {
-      border-color: var(--border);
-      background: rgba(255,255,255,0.04);
-      color: var(--text);
-    }
-
-    .stat-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin-top: 28px;
-    }
-
-    .stat {
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.04);
-      border-radius: 20px;
-      padding: 16px 18px;
-    }
-
-    .stat strong {
-      display: block;
-      margin-bottom: 6px;
-      font-size: 1.03rem;
-    }
-
-    .stat span {
-      color: var(--muted);
-      font-size: 0.92rem;
-      line-height: 1.5;
-    }
-
-    .showcase-panel {
-      border-radius: 28px;
-      border: 1px solid var(--border);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.055), rgba(255,255,255,0.03)),
-        radial-gradient(circle at top, rgba(255, 179, 71, 0.11), transparent 34%);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-
-    .showcase-head {
-      padding: 16px 18px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      color: var(--muted);
-      font-size: 0.93rem;
-      background: rgba(0,0,0,0.08);
-    }
-
-    .dots {
-      display: flex;
-      gap: 7px;
-    }
-
-    .dots i {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      display: inline-block;
-      background: rgba(255,255,255,0.25);
-    }
-
-    .dots i:first-child { background: rgba(255, 122, 89, 0.75); }
-    .dots i:nth-child(2) { background: rgba(255, 179, 71, 0.75); }
-    .dots i:nth-child(3) { background: rgba(129, 201, 255, 0.75); }
-
-    .showcase-body {
-      padding: 18px;
-      display: grid;
-      gap: 14px;
-    }
-
-    .pill-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .pill {
-      padding: 10px 12px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid var(--border);
-      color: #dfe6ff;
-      font-size: 0.9rem;
-    }
-
-    .tab {
-      cursor: pointer;
-      user-select: none;
-      transition: 0.2s ease;
-    }
-
-    .tab:hover {
-      transform: translateY(-1px);
-      background: rgba(255,255,255,0.08);
-    }
-
-    .tab.active {
-      border-color: rgba(255, 179, 71, 0.55);
-      background: rgba(255, 179, 71, 0.14);
-      color: #fff;
-      box-shadow: 0 0 0 1px rgba(255, 179, 71, 0.10) inset;
-    }
-
-    .module-card {
-      border-radius: 24px;
-      padding: 18px;
-      border: 1px solid var(--border);
-      background:
-        radial-gradient(circle at top left, rgba(255, 179, 71, 0.12), transparent 32%),
-        rgba(255,255,255,0.035);
-      min-height: 260px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .module-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    .module-title {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 0;
-    }
-
-    .module-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 14px;
-      display: grid;
-      place-items: center;
-      border: 1px solid rgba(255, 179, 71, 0.22);
-      background: linear-gradient(135deg, rgba(255, 179, 71, 0.16), rgba(255, 122, 89, 0.10));
-      color: var(--accent);
-      font-size: 1.1rem;
-      flex: 0 0 auto;
-    }
-
-    .module-title h3 {
-      margin: 0;
-      font-size: 1.15rem;
-      line-height: 1.1;
-    }
-
-    .module-title p {
-      margin: 4px 0 0;
-      color: var(--muted);
-      font-size: 0.92rem;
-    }
-
-    .module-count {
-      padding: 9px 12px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid var(--border);
-      color: #dfe6ff;
-      font-size: 0.9rem;
-      white-space: nowrap;
-    }
-
-    .module-list {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-    }
-
-    .module-item {
-      padding: 12px 14px;
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.03);
-      color: #edf1ff;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .module-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      flex: 0 0 auto;
-      box-shadow: 0 0 16px rgba(255, 179, 71, 0.35);
-    }
-
-    .module-footer {
-      margin-top: auto;
-      padding-top: 4px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .chip {
-      padding: 8px 11px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.03);
-      color: var(--muted);
-      font-size: 0.86rem;
-    }
-
-    .content {
-      padding: 12px 0 26px;
-    }
-
-    .section {
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.04);
-      backdrop-filter: blur(18px);
-      box-shadow: var(--shadow);
-      border-radius: 30px;
-      padding: 26px;
-      margin-top: 22px;
-    }
-
-    .section-head {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 18px;
-      flex-wrap: wrap;
-    }
-
-    .section-head h2 {
-      margin: 0;
-      font-size: 1.55rem;
-      letter-spacing: -0.03em;
-    }
-
-    .section-head span {
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-
-    .two-col {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
-    .note-box {
-      border-radius: 24px;
-      padding: 20px;
-      border: 1px solid var(--border);
-      background:
-        radial-gradient(circle at top left, rgba(255, 179, 71, 0.10), transparent 34%),
-        rgba(255,255,255,0.035);
-    }
-
-    .note-box h3 {
-      margin: 0 0 10px;
-      font-size: 1.05rem;
-    }
-
-    .note-box p {
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.75;
-    }
-
-    .embed-wrap {
-      margin-top: 18px;
-      border-radius: 24px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      background: #000;
-      aspect-ratio: 16 / 9;
-    }
-
-    .embed-wrap iframe {
-      width: 100%;
-      height: 100%;
-      border: 0;
-      display: block;
-    }
-
-    .bottom-band {
-      margin: 22px 0 34px;
-      border-radius: 28px;
-      border: 1px solid var(--border);
-      background:
-        linear-gradient(135deg, rgba(255, 179, 71, 0.12), rgba(255, 122, 89, 0.10)),
-        rgba(255,255,255,0.04);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-
-    .bottom-band-inner {
-      min-height: 96px;
-      padding: 18px 22px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-      flex-wrap: wrap;
-    }
-
-    .copyright {
-      font-size: 0.94rem;
-      color: var(--muted);
-      line-height: 1.5;
-    }
-
-    .copyright strong {
-      color: var(--text);
-      font-weight: 700;
-    }
-
-    .footer-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    @media (max-width: 980px) {
-      .hero-grid,
-      .two-col {
-        grid-template-columns: 1fr;
-      }
-
-      .footer-actions {
-        justify-content: flex-start;
-      }
-    }
-
-    @media (max-width: 720px) {
-      .hero-card,
-      .section,
-      .bottom-band {
-        border-radius: 24px;
-      }
-
-      .hero-copy h1 {
-        font-size: 2.85rem;
-        letter-spacing: -0.05em;
-      }
-
-      .nav {
-        gap: 8px;
-      }
-
-      .nav a {
-        padding: 9px 12px;
-      }
-
-      .module-list {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
-</head>
-<body>
-  <main class="wrap">
-    <section class="hero">
-      <div class="hero-card">
-        <div class="hero-top">
-          <div class="brand">
-            <div class="brand-badge">
-              <img src="https://i.ibb.co/jPMwZkXG/Solaris.png" alt="Solaris Icon" />
-            </div>
-            <div class="brand-name">Solaris Client</div>
-          </div>
-          <div class="nav">
-            <a href="#community">Community</a>
-            <a href="#showcase">Showcase</a>
-            <a href="https://discord.gg/PAbWhCJWAt">Join Discord</a>
-          </div>
-        </div>
-
-        <div class="hero-grid">
-          <div class="hero-copy">
-            <div class="eyebrow">Minecraft Bedrock Edition Client</div>
-            <h1><span class="gradient-text">Solaris</span></h1>
-            <p>
-              A Windows-based Minecraft Bedrock client developed as a learning project, with a clean showcase style and a community-first focus.
-            </p>
-
-            <div class="actions" id="join">
-              <a class="btn btn-primary" href="https://discord.gg/PAbWhCJWAt" target="_blank" rel="noopener noreferrer">Join Discord</a>
-              <a class="btn btn-secondary" href="#showcase">Watch Showcase</a>
-            </div>
-
-            <div class="stat-row">
-              <div class="stat">
-                <strong>Community built</strong>
-                <span>Ideas, feedback, and improvements are welcome.</span>
-              </div>
-              <div class="stat">
-                <strong>Clean access</strong>
-                <span>Downloads are in the Discord downloads channel.</span>
-              </div>
-              <div class="stat">
-                <strong>Simple use</strong>
-                <span>Open and close with the Home key.</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="showcase-panel">
-            <div class="showcase-head">
-              <div class="dots"><i></i><i></i><i></i></div>
-              <div>Modules</div>
-            </div>
-            <div class="showcase-body">
-              <div class="pill-row" id="tabs">
-                <div class="pill tab active" data-tab="combat">Combat</div>
-                <div class="pill tab" data-tab="movement">Movement</div>
-                <div class="pill tab" data-tab="utilities">Utilities</div>
-                <div class="pill tab" data-tab="visuals">Visuals</div>
-                <div class="pill tab" data-tab="misc">Misc</div>
-              </div>
-
-              <div class="module-card" id="tab-content"></div>
-            </div>
-          </div>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0f0b0b">
+    <meta name="description" content="Solaris Client website with dynamic content managed from a central JSON file.">
+    <title>Solaris</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+    <script defer src="/app.js"></script>
+  </head>
+  <body data-local-content="/content" data-remote-content="https://solaris.ink/content">
+    <header class="site-header" id="siteHeader">
+      <div class="site-header__inner">
+        <a class="brand" href="/" aria-label="Solaris home">
+          <img src="/assets/solaris-cube-logo.png" alt="">
+          <span data-text="brand.name">Solaris</span>
+        </a>
+
+        <nav class="desktop-nav" aria-label="Main navigation">
+          <a href="/">Home</a>
+          <a href="/docs/">Doc</a>
+          <a href="/faq/">FAQ</a>
+        </nav>
+
+        <div class="header-actions">
+          <a class="header-download" href="/?download" data-scroll-download>Download</a>
+          <button class="menu-button" type="button" aria-label="Open menu" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
         </div>
       </div>
-    </section>
+      <div class="mobile-menu" id="mobileMenu">
+        <a href="/">Home</a>
+        <a href="/docs/">Doc</a>
+        <a href="/faq/">FAQ</a>
+        <a href="/?download" data-scroll-download>Download</a>
+      </div>
+    </header>
 
-    <section class="content">
-      <section class="section" id="community">
-        <div class="section-head">
-          <h2>Community</h2>
-          <span>Built together, not just for people</span>
+    <main>
+      <section class="hero route-view" data-route="home">
+        <div class="hero-bg" aria-hidden="true"></div>
+        <div class="hero-shade" aria-hidden="true"></div>
+        <div class="hero-glow" aria-hidden="true"></div>
+        <div class="hero-vignette" aria-hidden="true"></div>
+        <div class="solaris-orbit" aria-hidden="true"></div>
+
+        <div class="hero-content">
+          <h1>
+            <span data-text="hero.accent">Solaris</span>
+            <br>
+            <span data-text="hero.titleLine">Client</span><b>.</b>
+          </h1>
+          <div class="hero-action" id="homeButton"></div>
+        </div>
+      </section>
+
+      <section class="download-page route-view" data-route="download">
+        <div class="showcase">
+          <div class="section-title">
+            <p data-text="media.eyebrow">Media</p>
+            <h2 data-text="media.title">Watch Solaris in action.</h2>
+          </div>
+          <div class="media-system">
+            <article class="feature-video" id="featureVideo"></article>
+            <ul class="video-list" id="videoList"></ul>
+          </div>
         </div>
 
-        <div class="two-col">
-          <div class="note-box">
-            <h3>Welcome</h3>
-            <p>
-              Solaris is a Windows-based Minecraft Bedrock client developed as a learning project, featuring combat, movement, and visual enhancements.
-            </p>
-          </div>
-
-          <div class="note-box">
-            <h3>This is just the start</h3>
-            <p>
-              This is just the start. I want this to be something we build with the community, not just for it.
-              Ideas, improvements, and concepts are all welcome.
-            </p>
-          </div>
-
-          <div class="note-box">
-            <h3>Got an idea?</h3>
-            <p>
-              Drop it in <strong>#suggestions</strong> whether it is a new module, an improvement, or your own concept.
-              If you know how something could be done, share that too.
-            </p>
-          </div>
-
-          <div class="note-box">
-            <h3>Need help?</h3>
-            <p>
-              Found a bug, need assistance, or want to reach out? Open a ticket and talk directly.
-            </p>
+        <div class="ready" id="downloadPanel">
+          <div class="ready-card">
+            <div class="ready-glow" aria-hidden="true"></div>
+            <h2 data-text="download.title">Download Solaris</h2>
+            <p data-text="download.subtitle">Join the official Discord to access the download channel.</p>
+            <div class="download-stack download-stack--compact" id="downloadButtons"></div>
           </div>
         </div>
       </section>
 
-      <section class="section" id="showcase">
-        <div class="section-head">
-          <h2>Showcase</h2>
-          <span>Video embed</span>
+      <section class="docs page-view route-view" data-route="docs">
+        <div class="section-title">
+          <p data-text="docs.eyebrow">Docs</p>
+          <h2 data-text="docs.title">Solaris Information Line</h2>
         </div>
-
-        <div class="two-col">
-          <div class="note-box">
-            <h3>Download</h3>
-            <p>
-              The client is available through the downloads channel inside the Discord.
-            </p>
-          </div>
-
-          <div class="note-box">
-            <h3>Versions</h3>
-            <p>
-              1.26.13, 1.26.20
-            </p>
-          </div>
-        </div>
-
-        <div class="embed-wrap">
-          <iframe
-            src="https://www.youtube.com/embed/tdzFGNT7hQo"
-            title="Solaris Client Showcase"
-            loading="lazy"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen>
-          </iframe>
-        </div>
+        <div class="doc-timeline" id="docTimeline"></div>
       </section>
 
-      <section class="bottom-band">
-        <div class="bottom-band-inner">
-          <div class="copyright">
-            <strong>Solaris</strong> © 2026
-          </div>
-          <div class="footer-actions">
-            <a class="btn btn-primary" href="https://discord.gg/PAbWhCJWAt" target="_blank" rel="noopener noreferrer">Join Discord</a>
-          </div>
+      <section class="faq page-view route-view" data-route="faq">
+        <div class="section-title">
+          <p data-text="faq.eyebrow">Support</p>
+          <h2 data-text="faq.title">Frequently Asked Questions</h2>
         </div>
+        <div class="faq-list" id="faqList"></div>
       </section>
-    </section>
-  </main>
+    </main>
 
-  <script>
-    const tabData = {
-      combat: {
-        icon: "⚔️",
-        title: "Combat",
-        desc: "Core combat modules available in Solaris.",
-        count: "3 modules",
-        items: ["Hitboxes", "Reach", "Rapid Hit"],
-        chips: ["Close range", "PvP", "Core"]
-      },
-      movement: {
-        icon: "🏃",
-        title: "Movement",
-        desc: "Movement-focused modules and mobility options.",
-        count: "8 modules",
-        items: ["No Clip", "Scaffold Fly", "Glide", "High Jump", "No Friction", "VSpeed", "Step", "Spider"],
-        chips: ["Mobility", "Traversal", "Control"]
-      },
-      utilities: {
-        icon: "🛠️",
-        title: "Utilities",
-        desc: "Utility modules for control and flexibility.",
-        count: "4 modules",
-        items: ["Blink", "No Web", "Timer", "Freecam"],
-        chips: ["Utility", "Tools", "Support"]
-      },
-      visuals: {
-        icon: "👁️",
-        title: "Visuals",
-        desc: "Visual adjustments and quality-of-life modules.",
-        count: "5 modules",
-        items: ["No Fire", "No Invis", "No Debuffs", "Fullbright", "Arraylist"],
-        chips: ["Visuals", "UI", "QoL"]
-      },
-      misc: {
-        icon: "🎲",
-        title: "Misc",
-        desc: "Extra features and smaller project additions.",
-        count: "1 module",
-        items: ["Unlock Skins"],
-        chips: ["Extra", "Lightweight", "Simple"]
-      }
-    };
-  
-    const tabs = document.querySelectorAll(".tab");
-    const content = document.getElementById("tab-content");
-  
-    function renderTab(key) {
-      const data = tabData[key];
-  
-      content.innerHTML = `
-        <div class="module-top">
-          <div class="module-title">
-            <div class="module-icon">${data.icon}</div>
-            <div>
-              <h3>${data.title}</h3>
-              <p>${data.desc}</p>
-            </div>
-          </div>
-          <div class="module-count">${data.count}</div>
+    <footer class="site-footer">
+      <div class="footer-brand">
+        <img src="/assets/solaris-cube-logo.png" alt="">
+        <div>
+          <strong data-text="brand.name">Solaris</strong>
+          <p data-text="footer.description">Premium client content managed from one central source.</p>
         </div>
-  
-        <div class="module-list">
-          ${data.items.map(item => `
-            <div class="module-item">
-              <span class="module-dot"></span>
-              <span>${item}</span>
-            </div>
-          `).join("")}
-        </div>
-  
-        <div class="module-footer">
-          ${data.chips.map(chip => `<span class="chip">${chip}</span>`).join("")}
-        </div>
-      `;
-    }
-  
-    tabs.forEach(tab => {
-      tab.addEventListener("click", () => {
-        tabs.forEach(t => t.classList.remove("active"));
-        tab.classList.add("active");
-        renderTab(tab.dataset.tab);
-      });
-    });
-  
-    renderTab("combat");
-  </script>
-</body>
+      </div>
+      <div class="footer-links">
+        <a href="/?download" data-scroll-download>Download</a>
+        <a href="/docs/">Doc</a>
+        <a href="/faq/">FAQ</a>
+        <a data-link="discord" href="#" target="_blank" rel="noreferrer">Discord</a>
+      </div>
+      <div class="footer-legal">
+        <p data-text="footer.copy">© 2026 Solaris Client. All rights reserved.</p>
+        <p data-text="footer.creator">Website creator Matteduk (creppert35@gmail.com) Buscame en discord</p>
+      </div>
+    </footer>
+  </body>
 </html>
