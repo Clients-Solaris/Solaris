@@ -6,14 +6,17 @@ const contentUrl = isLocal ? localContent : remoteContent;
 let activeVideo = 0;
 let siteContent = null;
 
-const routeMap = {
-  "/": "home",
-  "/docs/": "docs",
-  "/faq/": "faq",
-  "/download/": "download"
+const getRoute = () => {
+  const hash = window.location.hash.replace("#", "");
+  return hash || "home";
 };
 
-const currentRoute = routeMap[window.location.pathname] || "home";
+let currentRoute = getRoute();
+
+window.addEventListener("hashchange", () => {
+  currentRoute = getRoute();
+  applyRoute();
+});
 
 const iconPaths = {
   windows: '<path d="M3 5.5 11 4v8H3V5.5ZM12 3.85l9-1.35V11h-9V3.85ZM3 13h8v7.5L3 19V13Zm9 0h9v8l-9-1.35V13Z"></path>',
@@ -170,7 +173,7 @@ const scrollToDownload = () => {
 const bindDownloadScroll = () => {
   document.addEventListener("click", (event) => {
     const link = event.target.closest("[data-scroll-download]");
-    if (!link || window.location.pathname !== "/") return;
+    if (!link) return;
     event.preventDefault();
     document.body.classList.remove("nav-open");
     document.querySelector(".menu-button")?.setAttribute("aria-expanded", "false");
@@ -178,7 +181,7 @@ const bindDownloadScroll = () => {
     history.replaceState(null, "", "/");
   }, true);
 
-  if (currentRoute === "home" && new URLSearchParams(window.location.search).has("download")) {
+  if (getRoute() === "home" && new URLSearchParams(window.location.search).has("download")) {
     window.setTimeout(() => {
       history.replaceState(null, "", "/");
       scrollToDownload();
@@ -204,8 +207,8 @@ const bindHeader = () => {
   });
 
   links.forEach((link) => {
-    const linkPath = new URL(link.href).pathname;
-    link.classList.toggle("is-active", (routeMap[linkPath] || "home") === currentRoute);
+    const linkHash = link.getAttribute("href")?.replace("#", "") || "home";
+    link.classList.toggle("is-active", linkHash === currentRoute);
     link.addEventListener("click", () => {
       document.body.classList.remove("nav-open");
       menuButton.setAttribute("aria-expanded", "false");
