@@ -1,0 +1,148 @@
+{
+  "brand": {
+    "name": "Solaris"
+  },
+  "links": {
+    "discord": "https://discord.gg/PAbWhCJWAt"
+  },
+  "hero": {
+    "accent": "Solaris",
+    "titleLine": "Client"
+  },
+  "buttons": [
+    {
+      "title": "Download for Windows",
+      "meta": "Discord access",
+      "icon": "windows",
+      "href": "https://discord.gg/PAbWhCJWAt",
+      "primary": true,
+      "external": true
+    },
+    {
+      "title": "Android",
+      "meta": "Not available",
+      "icon": "android",
+      "href": "https://discord.gg/PAbWhCJWAt",
+      "primary": false,
+      "external": true
+    },
+    {
+      "title": "Join Discord",
+      "meta": "discord.gg/PAbWhCJWAt",
+      "icon": "discord",
+      "href": "https://discord.gg/PAbWhCJWAt",
+      "primary": false,
+      "external": true
+    }
+  ],
+  "media": {
+    "eyebrow": "Media",
+    "title": "Watch Solaris in action.",
+    "items": [
+      {
+        "platform": "YouTube",
+        "type": "Review",
+        "year": "2026",
+        "title": "Solaris combat setup",
+        "url": "https://www.youtube.com/watch?v=tdzFGNT7hQo",
+        "thumbnail": "https://i.ytimg.com/vi/tdzFGNT7hQo/maxresdefault.jpg",
+        "smallThumbnail": "https://i.ytimg.com/vi/tdzFGNT7hQo/mqdefault.jpg"
+      },
+      {
+        "platform": "YouTube",
+        "type": "Review",
+        "year": "2026",
+        "title": "Solaris media showcase",
+        "url": "https://www.youtube.com/watch?v=kpQW82n5LZQ",
+        "thumbnail": "https://i.ytimg.com/vi/kpQW82n5LZQ/maxresdefault.jpg",
+        "smallThumbnail": "https://i.ytimg.com/vi/kpQW82n5LZQ/mqdefault.jpg"
+      },
+      {
+        "platform": "YouTube",
+        "type": "Latest",
+        "year": "2026",
+        "title": "Solaris gameplay preview",
+        "url": "https://www.youtube.com/watch?v=JcmMUAlR-ig",
+        "thumbnail": "https://i.ytimg.com/vi/JcmMUAlR-ig/maxresdefault.jpg",
+        "smallThumbnail": "https://i.ytimg.com/vi/JcmMUAlR-ig/mqdefault.jpg"
+      }
+    ]
+  },
+  "faq": {
+    "eyebrow": "Support",
+    "title": "Frequently Asked Questions",
+    "items": [
+      {
+        "question": "What is the latest version?",
+        "answer": "The latest version is always published in the official Discord download channel. Use the newest pinned release there."
+      },
+      {
+        "question": "How do I open or close Solaris?",
+        "answer": "Press the Home key to open or close the client completely."
+      },
+      {
+        "question": "Where can I download Solaris?",
+        "answer": "Official downloads are available only inside the Discord download channel."
+      },
+      {
+        "question": "Is Solaris safe?",
+        "answer": "Use only the official Discord download. If Windows or an antivirus shows a warning, confirm the file source and open a support ticket."
+      }
+    ]
+  },
+  "docs": {
+    "eyebrow": "Docs",
+    "title": "Solaris Information Line",
+    "items": [
+      {
+        "phase": "General",
+        "title": "What is Solaris?",
+        "description": "Solaris Client is a Windows project for Minecraft Bedrock Edition, built as a learning project with a clean presentation and a community-first focus."
+      },
+      {
+        "phase": "Usage",
+        "title": "How does it work?",
+        "description": "Solaris opens and closes completely with the Home key, keeping the workflow simple during gameplay."
+      },
+      {
+        "phase": "Community",
+        "title": "How can users participate?",
+        "description": "The project is built alongside its users. Suggestions, module ideas and improvement proposals are welcome in the Discord suggestions channel."
+      },
+      {
+        "phase": "Support",
+        "title": "How are bugs reported?",
+        "description": "Support is handled through Discord tickets for bug reports, help requests and direct contact with the developer."
+      },
+      {
+        "phase": "Combat",
+        "title": "What PvP modules are included?",
+        "description": "Combat includes Hitboxes, Reach and Rapid Hit, focused on close range PvP and core combat control."
+      },
+      {
+        "phase": "Movement",
+        "title": "What movement modules are included?",
+        "description": "Movement includes No Clip, Scaffold Fly, Glide, High Jump, No Friction, VSpeed, Step and Spider."
+      },
+      {
+        "phase": "Utilities",
+        "title": "What utility modules are included?",
+        "description": "Utilities includes Blink, No Web, Timer and Freecam for support tools and flexible control."
+      },
+      {
+        "phase": "Visuals",
+        "title": "What visual modules are included?",
+        "description": "Visuals includes No Fire, No Invis, No Debuffs, Fullbright and Arraylist. Misc includes Unlock Skins."
+      }
+    ]
+  },
+  "download": {
+    "title": "Download Solaris",
+    "subtitle": "Join the official Discord to access the download channel."
+  },
+  "footer": {
+    "description": "Premium client content managed from one central source.",
+    "copy": "© 2026 Solaris Client. All rights reserved.",
+    "creator": "Website creator Matteduk (creppert35@gmail.com) Buscame en discord"
+  }
+}
